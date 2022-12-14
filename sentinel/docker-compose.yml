@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  redis-sentinel-1:
+    image: redis
+    container_name: redis-sentinel-1
+    volumes:
+      - /Users/chenjiawei/dev/docker/redis/RedisDeployConfig/sentinel/sentinel-1/sentinel.conf:/etc/redis/conf/sentinel.conf
+    ports:
+      - "26379:26379"
+    restart: always
+    command: redis-sentinel /etc/redis/conf/sentinel.conf
+  redis-master-1:
+    image: redis
+    container_name: redis-master-1
+    volumes:
+      - /Users/chenjiawei/dev/docker/redis/RedisDeployConfig/master-1-16370/conf/redis.conf:/etc/redis/conf/redis.conf
+      - /Users/chenjiawei/dev/docker/redis/RedisDeployConfig/master-1-16370/data:/data/redis
+    ports:
+      - "16370:16370"
+    restart: always
+    command: redis-server /etc/redis/conf/redis.conf
+  redis-master-1-slave-1:
+    image: redis
+    container_name: redis-master-1-slave-1
+    volumes:
+      - /Users/chenjiawei/dev/docker/redis/RedisDeployConfig/master-1-slave-1-16371/conf/redis.conf:/etc/redis/conf/redis.conf
+      - /Users/chenjiawei/dev/docker/redis/RedisDeployConfig/master-1-slave-1-16371/data:/data/redis
+    ports:
+      - "16371:16371"
+    restart: always
+    command: redis-server /etc/redis/conf/redis.conf --replicaof 192.168.31.21 16370 --replica-announce-ip 192.168.31.21
+  redis-master-1-slave-2:
+    image: redis
+    container_name: redis-master-1-slave-2
+    volumes:
+      - /Users/chenjiawei/dev/docker/redis/RedisDeployConfig/master-1-slave-2-16372/conf/redis.conf:/etc/redis/conf/redis.conf
+      - /Users/chenjiawei/dev/docker/redis/RedisDeployConfig/master-1-slave-2-16372/data:/data/redis
+    ports:
+      - "16372:16372"
+    restart: always
+    command: redis-server /etc/redis/conf/redis.conf --replicaof 192.168.31.21 16370 --replica-announce-ip 192.168.31.21
+  redis-master-1-slave-3:
+    image: redis
+    container_name: redis-master-1-slave-3
+    volumes:
+      - /Users/chenjiawei/dev/docker/redis/RedisDeployConfig/master-1-slave-3-16373/conf/redis.conf:/etc/redis/conf/redis.conf
+      - /Users/chenjiawei/dev/docker/redis/RedisDeployConfig/master-1-slave-3-16373/data:/data/redis
+    ports:
+      - "16373:16373"
+    restart: always
+    command: redis-server /etc/redis/conf/redis.conf --replicaof 192.168.31.21 16370 --replica-announce-ip 192.168.31.21
