@@ -7,6 +7,24 @@ services:
     volumes:
       - /Users/chenjiawei/dev/docker/redis/RedisDeployConfig/sentinel/sentinel-1/sentinel.conf:/etc/redis/conf/sentinel.conf
     ports:
+      - "26377:26377"
+    restart: always
+    command: redis-sentinel /etc/redis/conf/sentinel.conf
+  redis-sentinel-2:
+    image: redis
+    container_name: redis-sentinel-2
+    volumes:
+      - /Users/chenjiawei/dev/docker/redis/RedisDeployConfig/sentinel/sentinel-2/sentinel.conf:/etc/redis/conf/sentinel.conf
+    ports:
+      - "26378:26378"
+    restart: always
+    command: redis-sentinel /etc/redis/conf/sentinel.conf
+  redis-sentinel-3:
+    image: redis
+    container_name: redis-sentinel-3
+    volumes:
+      - /Users/chenjiawei/dev/docker/redis/RedisDeployConfig/sentinel/sentinel-3/sentinel.conf:/etc/redis/conf/sentinel.conf
+    ports:
       - "26379:26379"
     restart: always
     command: redis-sentinel /etc/redis/conf/sentinel.conf
