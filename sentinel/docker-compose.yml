@@ -10,7 +10,7 @@ services:
     ports:
       - "26377:26377"
     restart: always
-    command: redis-sentinel /etc/redis/conf/sentinel.conf "--sentinel monitor mymaster 192.168.87.81 16370 2"
+    command: redis-sentinel /etc/redis/conf/sentinel.conf "--sentinel monitor mymaster ${REDIS_IP} 16370 2"
     environment:
       - TZ=Asia/Shanghai
   redis-sentinel-2:
@@ -22,7 +22,7 @@ services:
     ports:
       - "26378:26378"
     restart: always
-    command: redis-sentinel /etc/redis/conf/sentinel.conf "--sentinel monitor mymaster 192.168.87.81 16370 2"
+    command: redis-sentinel /etc/redis/conf/sentinel.conf "--sentinel monitor mymaster ${REDIS_IP} 16370 2"
     environment:
       - TZ=Asia/Shanghai
   redis-sentinel-3:
@@ -34,7 +34,7 @@ services:
     ports:
       - "26379:26379"
     restart: always
-    command: redis-sentinel /etc/redis/conf/sentinel.conf "--sentinel monitor mymaster 192.168.87.81 16370 2"
+    command: redis-sentinel /etc/redis/conf/sentinel.conf "--sentinel monitor mymaster ${REDIS_IP} 16370 2"
     environment:
       - TZ=Asia/Shanghai
   redis-master-1:
@@ -42,11 +42,11 @@ services:
     container_name: redis-master-1
     volumes:
       - ../master-1-16370/conf/redis.conf:/etc/redis/conf/redis.conf
-      - ../master-1-16370/master-1-16370/data:/data/redis
+      - ../master-1-16370/data:/data/redis
     ports:
       - "16370:16370"
     restart: always
-    command: redis-server /etc/redis/conf/redis.conf --replica-announce-ip 192.168.87.81
+    command: redis-server /etc/redis/conf/redis.conf --replica-announce-ip ${REDIS_IP}
     environment:
       - TZ=Asia/Shanghai
   redis-master-1-slave-1:
@@ -58,7 +58,7 @@ services:
     ports:
       - "16371:16371"
     restart: always
-    command: redis-server /etc/redis/conf/redis.conf --replicaof 192.168.87.81 16370 --replica-announce-ip 192.168.87.81
+    command: redis-server /etc/redis/conf/redis.conf --replicaof ${REDIS_IP} 16370 --replica-announce-ip ${REDIS_IP}
     environment:
       - TZ=Asia/Shanghai
   redis-master-1-slave-2:
@@ -70,7 +70,7 @@ services:
     ports:
       - "16372:16372"
     restart: always
-    command: redis-server /etc/redis/conf/redis.conf --replicaof 192.168.87.81 16370 --replica-announce-ip 192.168.87.81
+    command: redis-server /etc/redis/conf/redis.conf --replicaof ${REDIS_IP} 16370 --replica-announce-ip ${REDIS_IP}
     environment:
       - TZ=Asia/Shanghai
   redis-master-1-slave-3:
@@ -82,6 +82,6 @@ services:
     ports:
       - "16373:16373"
     restart: always
-    command: redis-server /etc/redis/conf/redis.conf --replicaof 192.168.87.81 16370 --replica-announce-ip 192.168.87.81
+    command: redis-server /etc/redis/conf/redis.conf --replicaof ${REDIS_IP} 16370 --replica-announce-ip ${REDIS_IP}
     environment:
       - TZ=Asia/Shanghai
